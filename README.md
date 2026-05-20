@@ -1,73 +1,67 @@
-# React + TypeScript + Vite
+# 🚀 TaskFlow
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+O **TaskFlow** é uma aplicação web de gerenciamento de tarefas inspirada em produtos SaaS reais, desenvolvida com foco em boas práticas de arquitetura Front-End.
 
-Currently, two official plugins are available:
+Este projeto faz parte da construção do meu portfólio como Desenvolvedor Front-End.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## 🧰 Tecnologias utilizadas
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- React
+- TypeScript
+- Vite
+- TailwindCSS
+- React Router DOM
+- Firebase Authentication
+- Context API
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🔐 Funcionalidades já implementadas
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+✔ Autenticação de usuários com Firebase  
+✔ Rotas protegidas  
+✔ Arquitetura escalável com Context API  
+✔ Estrutura base de Dashboard
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## 🚧 Funcionalidades em desenvolvimento
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- CRUD completo de tarefas
+- Persistência no Firebase Firestore
+- Filtros e busca
+- Responsividade completa
+- Deploy da aplicação
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+---
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## 🎯 Objetivo do projeto
+
+Simular o desenvolvimento de um produto real, aplicando:
+
+- Boas práticas de arquitetura
+- Versionamento profissional com Git
+- Commits semânticos
+- Documentação contínua
+- Evolução incremental de features
+
+---
+
+## ▶️ Como rodar o projeto
+
+```bash
+# Instalar dependências
+npm install
+
+# Rodar o projeto
+npm run dev
+
+📌 Status do projeto
+
+🚧 Em desenvolvimento ativo
+
+👨‍💻 Autor
+
+Desenvolvido por Raphael Alves Brito

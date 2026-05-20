@@ -1,24 +1,23 @@
-import { Outlet, Link } from "react-router-dom";
+import { Outlet } from "react-router-dom";
+import { Sidebar } from "../components/Sidebar";
+import { Header } from "../components/Header";
 
 export function DashboardLayout() {
   return (
-    <div className="min-h-screen bg-slate-100 flex">
-      <aside className="w-64 bg-slate-900 text-white p-6">
-        <h1 className="text-2xl font-bold mb-10">TaskFlow</h1>
+    <div className="flex bg-slate-100 min-h-screen">
+      {/* Sidebar */}
+      <Sidebar />
 
-        <nav className="flex flex-col gap-4">
-          <Link to="/dashboard" className="hover:text-slate-300">
-            Dashboard
-          </Link>
-          <Link to="/tasks" className="hover:text-slate-300">
-            Tasks
-          </Link>
-        </nav>
-      </aside>
+      {/* Conteúdo */}
+      <div className="flex-1 flex flex-col">
+        {/* Header */}
+        <Header />
 
-      <main className="flex-1 p-8">
-        <Outlet />
-      </main>
+        {/* Página */}
+        <main className="p-8">
+          <Outlet />
+        </main>
+      </div>
     </div>
   );
 }

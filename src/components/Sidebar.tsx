@@ -25,19 +25,6 @@ export function Sidebar() {
         >
           Dashboard
         </NavLink>
-
-        <NavLink
-          to="/tasks"
-          className={({ isActive }) =>
-            `p-3 rounded-lg transition ${
-              isActive
-                ? "bg-slate-700"
-                : "hover:bg-slate-800"
-            }`
-          }
-        >
-          Tasks
-        </NavLink>
       </nav>
     </aside>
   );

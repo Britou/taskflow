@@ -1,19 +1,16 @@
-import { Navigate } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 
-export function ProtectedRoute({ children }: any) {
+export function ProtectedRoute() {
   const { user, loading } = useAuth();
 
-  // ⏳ enquanto verifica login
   if (loading) {
     return <h1>Carregando...</h1>;
   }
 
-  // 🔒 se não estiver logado → volta pro login
   if (!user) {
-    return <Navigate to="/login" />;
+    return <Navigate to="/login" replace />;
   }
 
-  // ✅ se estiver logado → entra na rota
-  return children;
+  return <Outlet />;
 }

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
+import { Button } from "../ui/Button";
 
 export function Login() {
   const navigate = useNavigate();
@@ -59,12 +60,9 @@ export function Login() {
             />
           </div>
 
-          <button
-            type="submit"
-            className="bg-slate-900 text-white py-3 rounded-lg hover:bg-slate-700 transition font-medium"
-          >
+          <Button type="submit" className="w-full">
             Entrar
-          </button>
+          </Button>
         </form>
 
         <p className="text-sm text-slate-500 mt-6 text-center">

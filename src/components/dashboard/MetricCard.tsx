@@ -1,16 +1,20 @@
-import { ClipboardList } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import { Card } from "../../ui/Card";
 
 type MetricCardProps = {
   title: string;
   value: string;
   description: string;
+  icon: LucideIcon;
+  iconColor?: string;
 };
 
 export function MetricCard({
   title,
   value,
   description,
+  icon: Icon,
+  iconColor = "text-blue-600",
 }: MetricCardProps) {
   return (
     <Card>
@@ -19,9 +23,9 @@ export function MetricCard({
           {title}
         </p>
 
-        <ClipboardList
+        <Icon
           size={20}
-          className="text-blue-600"
+          className={iconColor}
         />
       </div>
 

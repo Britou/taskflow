@@ -1,67 +1,48 @@
-import { MetricCard } from "../components/MetricCard";
-import { TaskCard } from "../components/TaskCard";
+import { DashboardHeader } from "../components/dashboard/DashboardHeader";
+import { MetricCard } from "../components/dashboard/MetricCard";
+import { TaskList } from "../components/dashboard/TaskList";
+import { ActivityList } from "../components/dashboard/ActivityList";
 
 export function Dashboard() {
   return (
-    <div>
-      {/* Título */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-slate-800">
-          Dashboard
-        </h1>
+    <div className="mx-auto max-w-7xl space-y-8">
+      <DashboardHeader />
 
-        <p className="text-slate-500 mt-2">
-          Gerencie suas tarefas e acompanhe sua produtividade.
-        </p>
-      </div>
-
-      {/* Métricas */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-        <MetricCard
-          title="Tarefas concluídas"
-          value="12"
-          description="+8% esta semana"
-        />
-
-        <MetricCard
-          title="Tarefas pendentes"
-          value="05"
-          description="2 com prioridade alta"
-        />
-
-        <MetricCard
-          title="Produtividade"
-          value="86%"
-          description="Excelente desempenho"
-        />
-      </div>
-
-      {/* Tarefas recentes */}
-      <div>
-        <h2 className="text-2xl font-semibold text-slate-800 mb-6">
-          Tarefas recentes
+      <section className="space-y-6">
+        <h2 className="text-2xl font-bold tracking-tight text-slate-900">
+          Visão Geral
         </h2>
 
-        <div className="flex flex-col gap-4">
-          <TaskCard
-            title="Finalizar layout do dashboard"
-            status="Em andamento"
-            priority="Alta"
+        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+          <MetricCard
+            title="Total de tarefas"
+            value="24"
+            description="+12% esta semana"
           />
 
-          <TaskCard
-            title="Implementar autenticação"
-            status="Concluído"
-            priority="Média"
+          <MetricCard
+            title="Concluídas"
+            value="18"
+            description="75% do total"
           />
 
-          <TaskCard
-            title="Criar responsividade mobile"
-            status="Pendente"
-            priority="Alta"
+          <MetricCard
+            title="Pendentes"
+            value="6"
+            description="3 prioritárias"
+          />
+
+          <MetricCard
+            title="Produtividade"
+            value="75%"
+            description="Excelente desempenho"
           />
         </div>
-      </div>
+      </section>
+      <section className="grid gap-6 xl:grid-cols-2">
+        <TaskList />
+        <ActivityList />
+      </section>
     </div>
   );
 }

@@ -14,7 +14,7 @@ export function DashboardLayout() {
         <Header />
 
         {/* Página */}
-        <main className="p-8">
+        <main className="flex-1 bg-slate-50 p-8">
           <Outlet />
         </main>
       </div>

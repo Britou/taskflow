@@ -1,4 +1,5 @@
 import { Card } from "../../ui/Card";
+import { activities } from "../../data/activities";
 import { ActivityItem } from "./ActivityItem";
 
 export function ActivityList() {
@@ -16,25 +17,13 @@ export function ActivityList() {
         </div>
 
         <div className="space-y-3">
-          <ActivityItem
-            title="Raphael criou uma nova tarefa."
-            time="Há 2 minutos"
-          />
-
-          <ActivityItem
-            title="Dashboard atualizado."
-            time="Há 30 minutos"
-          />
-
-          <ActivityItem
-            title="Login realizado."
-            time="Hoje às 09:15"
-          />
-
-          <ActivityItem
-            title="Projeto sincronizado."
-            time="Ontem"
-          />
+          {activities.map((activity) => (
+            <ActivityItem
+              key={activity.id}
+              title={activity.title}
+              time={activity.time}
+            />
+          ))}
         </div>
       </div>
     </Card>

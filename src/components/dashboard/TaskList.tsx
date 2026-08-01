@@ -1,7 +1,10 @@
 import { Card } from "../../ui/Card";
 import { TaskItem } from "./TaskItem";
+import { useTasks } from "../../hooks/useTasks";
 
 export function TaskList() {
+  const { tasks, loading } = useTasks();
+
   return (
     <Card>
       <div className="space-y-5">
@@ -15,18 +18,21 @@ export function TaskList() {
           </p>
         </div>
 
-        <div className="space-y-3">
-          <TaskItem
-            title="Finalizar layout do Dashboard"
-            completed
-          />
-
-          <TaskItem title="Integrar Firestore" />
-
-          <TaskItem title="Criar CRUD de tarefas" />
-
-          <TaskItem title="Adicionar filtros" />
-        </div>
+        {loading ? (
+          <p className="text-sm text-slate-500">
+            Carregando tarefas...
+          </p>
+        ) : (
+          <div className="space-y-3">
+            {tasks.map((task) => (
+              <TaskItem
+                key={task.id}
+                title={task.title}
+                completed={task.completed}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </Card>
   );

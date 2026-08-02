@@ -7,7 +7,7 @@ import { Modal } from "../../ui/Modal";
 import { TaskItem } from "./TaskItem";
 import { useTasks } from "../../hooks/useTasks";
 import { SectionHeader } from "../common/SectionHeader";
-import { createTask } from "../../services/taskService";
+import { createTask, deleteTask } from "../../services/taskService";
 
 export function TaskList() {
   const [createModalOpen, setCreateModalOpen] = useState(false);
@@ -42,11 +42,22 @@ export function TaskList() {
   }
 }
 
+  async function handleDeleteTask(id: string) {
+    const confirmed = window.confirm("Tem certeza que deseja excluir esta tarefa?");
+
+    if (!confirmed) {
+      return;
+    }
+
+    await deleteTask(id);
+    reload();
+}
+
   return (
     <Card>
       <div className="space-y-5">
         <SectionHeader
-          title="PrÃ³ximas tarefas"
+          title="Proximas tarefas"
           description="Acompanhe as atividades em andamento."
           action={
             <Button className="h-10 px-4" onClick={() => setCreateModalOpen(true)}>
@@ -67,6 +78,8 @@ export function TaskList() {
                 key={task.id}
                 title={task.title}
                 completed={task.completed}
+                priority={task.priority}
+                onDelete={() => handleDeleteTask(task.id)}
               />
             ))}
           </div>

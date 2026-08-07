@@ -5,6 +5,7 @@ type TaskItemProps = {
   completed?: boolean;
   priority: "low" | "medium" | "high";
   onDelete?: () => void;
+  onEdit?: () => void;
 };
 
 const priorityLabels = {
@@ -24,6 +25,7 @@ export function TaskItem({
   completed = false,
   priority,
   onDelete,
+  onEdit,
 }: TaskItemProps) {
   return (
     <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-white p-4 transition hover:border-blue-300 hover:shadow-sm">
@@ -59,6 +61,7 @@ export function TaskItem({
 
         <button
           type="button"
+          onClick={onEdit}
           className="rounded-lg p-2 text-slate-400 transition hover:bg-slate-100 hover:text-slate-700"
           aria-label="Editar tarefa"
         >

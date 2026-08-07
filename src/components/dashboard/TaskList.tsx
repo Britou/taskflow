@@ -1,19 +1,21 @@
 import { useState } from "react";
 import { Plus } from "lucide-react";
 
+import type { Task } from "../../types/task";
 import { Card } from "../../ui/Card";
 import { Button } from "../../ui/Button";
 import { Modal } from "../../ui/Modal";
 import { TaskItem } from "./TaskItem";
 import { useTasks } from "../../hooks/useTasks";
 import { SectionHeader } from "../common/SectionHeader";
-import { createTask, deleteTask } from "../../services/taskService";
+import { createTask, deleteTask, updateTask, } from "../../services/taskService";
 
 export function TaskList() {
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [taskTitle, setTaskTitle] = useState("");
   const [taskPriority, setTaskPriority] = useState("medium");
   const [saving, setSaving] = useState(false);
+  const [editingTask, setEditingTask] = useState<Task | null>(null);
   const { tasks, loading, reload } = useTasks();
   async function handleCreateTask(event: React.FormEvent<HTMLFormElement>) {
   event.preventDefault();
@@ -27,19 +29,34 @@ export function TaskList() {
   try {
     setSaving(true);
 
-    await createTask({
-      title: trimmedTitle,
-      completed: false,
-      priority: taskPriority as "low" | "medium" | "high",
-    });
+    if (editingTask) {
+      await updateTask(editingTask.id, {
+        title: trimmedTitle,
+        priority: taskPriority as "low" | "medium" | "high",
+      });
+    } else {
+      await createTask({
+        title: trimmedTitle,
+        completed: false,
+        priority: taskPriority as "low" | "medium" | "high",
+      });
+    }
 
     setTaskTitle("");
     setTaskPriority("medium");
+    setEditingTask(null);
     setCreateModalOpen(false);
     reload();
   } finally {
     setSaving(false);
   }
+}
+
+  function handleStartEditTask(task: Task) {
+    setEditingTask(task);
+    setTaskTitle(task.title);
+    setTaskPriority(task.priority);
+    setCreateModalOpen(true);
 }
 
   async function handleDeleteTask(id: string) {
@@ -80,6 +97,7 @@ export function TaskList() {
                 completed={task.completed}
                 priority={task.priority}
                 onDelete={() => handleDeleteTask(task.id)}
+                onEdit={() => handleStartEditTask(task)}
               />
             ))}
           </div>
@@ -88,9 +106,18 @@ export function TaskList() {
       
       <Modal
         open={createModalOpen}
-        title="Nova tarefa"
-        description="Aqui vamos criar o formulario de cadastro da tarefa."
-        onClose={() => setCreateModalOpen(false)}
+        title={editingTask ? "Editar tarefa" : "Nova tarefa"}
+        description={
+          editingTask
+            ? "Atualize as informacoes da tarefa."
+            : "Aqui vamos criar o formulario de cadastro da tarefa."
+        }
+        onClose={() => {
+          setCreateModalOpen(false);
+          setEditingTask(null);
+          setTaskTitle("");
+          setTaskPriority("medium");
+        }}
       >
         <form onSubmit={handleCreateTask} className="space-y-5">
           <div className="space-y-2">
@@ -136,7 +163,7 @@ export function TaskList() {
             </Button>
 
             <Button type="submit" disabled={saving || !taskTitle.trim()}>
-              {saving ? "Salvando..." : "Salvar tarefa"}
+              {saving ? "Salvando..." : editingTask ? "Salvar alteracoes" : "Salvar tarefa"}
             </Button>
           </div>
         </form>

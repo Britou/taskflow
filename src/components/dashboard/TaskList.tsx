@@ -70,6 +70,14 @@ export function TaskList() {
     reload();
 }
 
+  async function handleToggleTask(task: Task) {
+  await updateTask(task.id, {
+    completed: !task.completed,
+  });
+
+  reload();
+}
+
   return (
     <Card>
       <div className="space-y-5">
@@ -98,6 +106,7 @@ export function TaskList() {
                 priority={task.priority}
                 onDelete={() => handleDeleteTask(task.id)}
                 onEdit={() => handleStartEditTask(task)}
+                onToggleComplete={() => handleToggleTask(task)}
               />
             ))}
           </div>

@@ -6,6 +6,7 @@ type TaskItemProps = {
   priority: "low" | "medium" | "high";
   onDelete?: () => void;
   onEdit?: () => void;
+  onToggleComplete?: () => void;
 };
 
 const priorityLabels = {
@@ -26,21 +27,22 @@ export function TaskItem({
   priority,
   onDelete,
   onEdit,
+  onToggleComplete,
 }: TaskItemProps) {
   return (
     <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-white p-4 transition hover:border-blue-300 hover:shadow-sm">
       <div className="flex items-center gap-3">
-        {completed ? (
-          <CheckCircle2
-            size={20}
-            className="text-emerald-500"
-          />
-        ) : (
-          <Circle
-            size={20}
-            className="text-slate-400"
-          />
-        )}
+        <button
+          type="button"
+          onClick={onToggleComplete}
+          aria-label={completed ? "Marcar como pendente" : "Marcar como concluída"}
+        >
+          {completed ? (
+            <CheckCircle2 size={20} />
+          ) : (
+            <Circle size={20} />
+          )}
+        </button>
 
         <span
           className={

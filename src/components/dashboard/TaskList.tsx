@@ -12,6 +12,7 @@ import { SectionHeader } from "../common/SectionHeader";
 import { createTask, deleteTask, updateTask, } from "../../services/taskService";
 
 export function TaskList() {
+  const [sortOption, setSortOption] = useState("default");
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [taskTitle, setTaskTitle] = useState("");
   const [taskPriority, setTaskPriority] = useState("medium");
@@ -36,6 +37,38 @@ export function TaskList() {
       (statusFilter === "pending" && !task.completed);
 
     return matchesSearch && matchesPriority && matchesStatus;
+  });
+
+    const sortedTasks = [...filteredTasks].sort((a, b) => {
+    if (sortOption === "priority-high") {
+      const priorityOrder = {
+        high: 3,
+        medium: 2,
+        low: 1,
+      };
+
+      return priorityOrder[b.priority] - priorityOrder[a.priority];
+    }
+
+    if (sortOption === "priority-low") {
+      const priorityOrder = {
+        high: 3,
+        medium: 2,
+        low: 1,
+      };
+
+      return priorityOrder[a.priority] - priorityOrder[b.priority];
+    }
+
+    if (sortOption === "title-asc") {
+      return a.title.localeCompare(b.title);
+    }
+
+    if (sortOption === "title-desc") {
+      return b.title.localeCompare(a.title);
+    }
+
+    return 0;
   });
 
   const { addActivity } = useActivityContext();
@@ -173,12 +206,24 @@ export function TaskList() {
                 setSearchTerm("");
                 setPriorityFilter("all");
                 setStatusFilter("all");
+                setSortOption("default");
               }}
             >
               Limpar filtros
             </Button>
           </div>
         </div>
+        <select
+          value={sortOption}
+          onChange={(event) => setSortOption(event.target.value)}
+          className="w-full rounded-xl border border-slate-300 px-4 py-2 text-sm outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+        >
+          <option value="default">Ordem padrão</option>
+          <option value="priority-high">Maior prioridade</option>
+          <option value="priority-low">Menor prioridade</option>
+          <option value="title-asc">Título: A → Z</option>
+          <option value="title-desc">Título: Z → A</option>
+        </select>
 
         {loading ? (
           <p className="text-sm text-slate-500">
@@ -190,7 +235,7 @@ export function TaskList() {
           </p>
         ) : (
           <div className="space-y-3">
-            {filteredTasks.map((task) => (
+            {sortedTasks.map((task) => (
               <TaskItem
                 key={task.id}
                 title={task.title}

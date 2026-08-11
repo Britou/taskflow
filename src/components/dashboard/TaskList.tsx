@@ -17,7 +17,27 @@ export function TaskList() {
   const [taskPriority, setTaskPriority] = useState("medium");
   const [saving, setSaving] = useState(false);
   const [editingTask, setEditingTask] = useState<Task | null>(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [priorityFilter, setPriorityFilter] = useState("all");
+  const [statusFilter, setStatusFilter] = useState("all");
   const { tasks, loading, reload } = useTasks();
+  const filteredTasks = tasks.filter((task) => {
+    const matchesSearch = task.title
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
+
+    const matchesPriority =
+      priorityFilter === "all" ||
+      task.priority === priorityFilter;
+
+    const matchesStatus =
+      statusFilter === "all" ||
+      (statusFilter === "completed" && task.completed) ||
+      (statusFilter === "pending" && !task.completed);
+
+    return matchesSearch && matchesPriority && matchesStatus;
+  });
+
   const { addActivity } = useActivityContext();
   async function handleCreateTask(event: React.FormEvent<HTMLFormElement>) {
   event.preventDefault();
@@ -114,14 +134,63 @@ export function TaskList() {
           </Button>
           }
         />
+        <div className="mb-6 space-y-3">
+          <input
+            type="text"
+            value={searchTerm}
+            onChange={(event) => setSearchTerm(event.target.value)}
+            placeholder="Pesquisar tarefas..."
+            className="w-full rounded-xl border border-slate-300 px-4 py-2 text-sm outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+          />
+
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+            <select
+              value={priorityFilter}
+              onChange={(event) => setPriorityFilter(event.target.value)}
+              className="w-full rounded-xl border border-slate-300 px-4 py-2 text-sm outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+            >
+              <option value="all">Todas as prioridades</option>
+              <option value="low">Baixa</option>
+              <option value="medium">Média</option>
+              <option value="high">Alta</option>
+            </select>
+
+            <select
+              value={statusFilter}
+              onChange={(event) => setStatusFilter(event.target.value)}
+              className="w-full rounded-xl border border-slate-300 px-4 py-2 text-sm outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+            >
+              <option value="all">Todas as tarefas</option>
+              <option value="pending">Pendentes</option>
+              <option value="completed">Concluídas</option>
+            </select>
+
+            <Button
+              type="button"
+              variant="secondary"
+              className="sm:col-span-2"
+              onClick={() => {
+                setSearchTerm("");
+                setPriorityFilter("all");
+                setStatusFilter("all");
+              }}
+            >
+              Limpar filtros
+            </Button>
+          </div>
+        </div>
 
         {loading ? (
           <p className="text-sm text-slate-500">
             Carregando tarefas...
           </p>
+        ) : filteredTasks.length === 0 ? (
+          <p className="text-sm text-slate-500">
+            Nenhuma tarefa encontrada.
+          </p>
         ) : (
           <div className="space-y-3">
-            {tasks.map((task) => (
+            {filteredTasks.map((task) => (
               <TaskItem
                 key={task.id}
                 title={task.title}

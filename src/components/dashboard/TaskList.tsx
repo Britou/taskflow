@@ -7,6 +7,7 @@ import { Button } from "../../ui/Button";
 import { Modal } from "../../ui/Modal";
 import { TaskItem } from "./TaskItem";
 import { useTasks } from "../../hooks/useTasks";
+import { useActivityContext } from "../../contexts/ActivityContext";
 import { SectionHeader } from "../common/SectionHeader";
 import { createTask, deleteTask, updateTask, } from "../../services/taskService";
 
@@ -17,6 +18,7 @@ export function TaskList() {
   const [saving, setSaving] = useState(false);
   const [editingTask, setEditingTask] = useState<Task | null>(null);
   const { tasks, loading, reload } = useTasks();
+  const { addActivity } = useActivityContext();
   async function handleCreateTask(event: React.FormEvent<HTMLFormElement>) {
   event.preventDefault();
 
@@ -30,17 +32,21 @@ export function TaskList() {
     setSaving(true);
 
     if (editingTask) {
-      await updateTask(editingTask.id, {
-        title: trimmedTitle,
-        priority: taskPriority as "low" | "medium" | "high",
-      });
-    } else {
-      await createTask({
-        title: trimmedTitle,
-        completed: false,
-        priority: taskPriority as "low" | "medium" | "high",
-      });
-    }
+    await updateTask(editingTask.id, {
+      title: trimmedTitle,
+      priority: taskPriority as "low" | "medium" | "high",
+    });
+
+    addActivity(`Você editou a tarefa "${trimmedTitle}".`);
+  } else {
+    await createTask({
+      title: trimmedTitle,
+      completed: false,
+      priority: taskPriority as "low" | "medium" | "high",
+    });
+
+    addActivity(`Você criou a tarefa "${trimmedTitle}".`);
+  }
 
     setTaskTitle("");
     setTaskPriority("medium");
@@ -60,23 +66,40 @@ export function TaskList() {
 }
 
   async function handleDeleteTask(id: string) {
-    const confirmed = window.confirm("Tem certeza que deseja excluir esta tarefa?");
+    const confirmed = window.confirm(
+      "Tem certeza que deseja excluir esta tarefa?"
+    );
 
     if (!confirmed) {
       return;
     }
 
+    const task = tasks.find((item) => item.id === id);
+
     await deleteTask(id);
+
+    if (task) {
+      addActivity(`Você excluiu a tarefa "${task.title}".`);
+    }
+
     reload();
-}
+  }
 
   async function handleToggleTask(task: Task) {
-  await updateTask(task.id, {
-    completed: !task.completed,
-  });
+    const completed = !task.completed;
 
-  reload();
-}
+    await updateTask(task.id, {
+      completed,
+    });
+
+    if (completed) {
+      addActivity(`Você concluiu a tarefa "${task.title}".`);
+    } else {
+      addActivity(`Você reabriu a tarefa "${task.title}".`);
+    }
+
+    reload();
+  }
 
   return (
     <Card>

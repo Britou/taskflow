@@ -1,8 +1,10 @@
 import { Card } from "../../ui/Card";
-import { activities } from "../../data/activities";
 import { ActivityItem } from "./ActivityItem";
+import { useActivityContext } from "../../contexts/ActivityContext";
 
 export function ActivityList() {
+  const { activities } = useActivityContext();
+
   return (
     <Card>
       <div className="space-y-5">

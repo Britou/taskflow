@@ -3,8 +3,7 @@ import { MetricCard } from "../components/dashboard/MetricCard";
 import { TaskList } from "../components/dashboard/TaskList";
 import { ActivityList } from "../components/dashboard/ActivityList";
 import { useTasks } from "../hooks/useTasks";
-import {
-  CheckCircle2, Clock3, ListTodo, TrendingUp, } from "lucide-react";
+import { CheckCircle2, Clock3, ListTodo, TrendingUp, } from "lucide-react";
 
 export function Dashboard() {
   const { tasks } = useTasks();

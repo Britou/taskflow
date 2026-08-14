@@ -40,6 +40,14 @@ export function TaskList() {
   });
 
     const sortedTasks = [...filteredTasks].sort((a, b) => {
+    if (sortOption === "created-newest") {
+      return (b.createdAt ?? 0) - (a.createdAt ?? 0);
+    }
+
+    if (sortOption === "created-oldest") {
+      return (a.createdAt ?? 0) - (b.createdAt ?? 0);
+    }
+
     if (sortOption === "priority-high") {
       const priorityOrder = {
         high: 3,
@@ -219,6 +227,8 @@ export function TaskList() {
           className="w-full rounded-xl border border-slate-300 px-4 py-2 text-sm outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
         >
           <option value="default">Ordem padrão</option>
+          <option value="created-newest">Mais recentes</option>
+          <option value="created-oldest">Mais antigas</option>
           <option value="priority-high">Maior prioridade</option>
           <option value="priority-low">Menor prioridade</option>
           <option value="title-asc">Título: A → Z</option>

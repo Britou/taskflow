@@ -24,7 +24,10 @@ export async function getTasks(): Promise<Task[]> {
 export async function createTask(
   task: Omit<Task, "id">
 ): Promise<void> {
-  await addDoc(collection(db, TASKS_COLLECTION), task);
+  await addDoc(collection(db, TASKS_COLLECTION), {
+    ...task,
+    createdAt: Date.now(),
+  });
 }
 
 export async function updateTask(

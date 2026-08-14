@@ -3,4 +3,5 @@ export type Task = {
   title: string;
   completed: boolean;
   priority: "low" | "medium" | "high";
+  createdAt?: number;
 };

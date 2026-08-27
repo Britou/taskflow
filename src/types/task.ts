@@ -4,4 +4,5 @@ export type Task = {
   completed: boolean;
   priority: "low" | "medium" | "high";
   createdAt?: number;
+  dueDate?: string;
 };

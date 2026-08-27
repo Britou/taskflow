@@ -12,7 +12,7 @@ export function Header() {
         </p>
 
         <p className="font-medium text-slate-900">
-          {user?.email ?? "admin@email.com"}
+          {user ?? "admin@email.com"}
         </p>
       </div>
 

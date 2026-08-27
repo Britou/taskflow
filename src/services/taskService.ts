@@ -3,6 +3,7 @@ import {
   addDoc,
   getDocs,
   deleteDoc,
+  deleteField,
   updateDoc,
   doc,
 } from "firebase/firestore";
@@ -34,7 +35,15 @@ export async function updateTask(
   id: string,
   task: Partial<Omit<Task, "id">>
 ): Promise<void> {
-  await updateDoc(doc(db, TASKS_COLLECTION, id), task);
+  const taskData = {
+    ...task,
+    dueDate:
+      "dueDate" in task && task.dueDate === undefined
+        ? deleteField()
+        : task.dueDate,
+  };
+
+  await updateDoc(doc(db, TASKS_COLLECTION, id), taskData);
 }
 
 export async function deleteTask(

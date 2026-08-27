@@ -1,9 +1,10 @@
-import { CheckCircle2, Circle, Pencil, Trash2 } from "lucide-react";
+import { CalendarDays, CheckCircle2, Circle, Pencil, Trash2 } from "lucide-react";
 
 type TaskItemProps = {
   title: string;
   completed?: boolean;
   priority: "low" | "medium" | "high";
+  dueDate?: string;
   onDelete?: () => void;
   onEdit?: () => void;
   onToggleComplete?: () => void;
@@ -21,10 +22,21 @@ const priorityStyles = {
   high: "bg-red-50 text-red-700 border-red-200",
 };
 
+function formatDueDate(dueDate: string) {
+  const [year, month, day] = dueDate.split("-");
+
+  if (!year || !month || !day) {
+    return dueDate;
+  }
+
+  return `${day}/${month}/${year}`;
+}
+
 export function TaskItem({
   title,
   completed = false,
   priority,
+  dueDate,
   onDelete,
   onEdit,
   onToggleComplete,
@@ -44,15 +56,24 @@ export function TaskItem({
           )}
         </button>
 
-        <span
-          className={
-            completed
-              ? "text-slate-400 line-through"
-              : "font-medium text-slate-700"
-          }
-        >
-          {title}
-        </span>
+        <div className="space-y-1">
+          <span
+            className={
+              completed
+                ? "block text-slate-400 line-through"
+                : "block font-medium text-slate-700"
+            }
+          >
+            {title}
+          </span>
+
+          {dueDate ? (
+            <span className="flex items-center gap-1 text-xs text-slate-500">
+              <CalendarDays size={14} />
+              Vence em {formatDueDate(dueDate)}
+            </span>
+          ) : null}
+        </div>
       </div>
       <div className="flex items-center gap-2">
         <span

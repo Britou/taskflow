@@ -9,13 +9,14 @@ import { TaskItem } from "./TaskItem";
 import { useTasks } from "../../hooks/useTasks";
 import { useActivityContext } from "../../contexts/ActivityContext";
 import { SectionHeader } from "../common/SectionHeader";
-import { createTask, deleteTask, updateTask, } from "../../services/taskService";
+import { createTask, deleteTask, updateTask } from "../../services/taskService";
 
 export function TaskList() {
   const [sortOption, setSortOption] = useState("default");
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [taskTitle, setTaskTitle] = useState("");
   const [taskPriority, setTaskPriority] = useState("medium");
+  const [taskDueDate, setTaskDueDate] = useState("");
   const [saving, setSaving] = useState(false);
   const [editingTask, setEditingTask] = useState<Task | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
@@ -39,7 +40,7 @@ export function TaskList() {
     return matchesSearch && matchesPriority && matchesStatus;
   });
 
-    const sortedTasks = [...filteredTasks].sort((a, b) => {
+  const sortedTasks = [...filteredTasks].sort((a, b) => {
     if (sortOption === "created-newest") {
       return (b.createdAt ?? 0) - (a.createdAt ?? 0);
     }
@@ -80,51 +81,60 @@ export function TaskList() {
   });
 
   const { addActivity } = useActivityContext();
-  async function handleCreateTask(event: React.FormEvent<HTMLFormElement>) {
-  event.preventDefault();
 
-  const trimmedTitle = taskTitle.trim();
-
-  if (!trimmedTitle || saving) {
-    return;
-  }
-
-  try {
-    setSaving(true);
-
-    if (editingTask) {
-    await updateTask(editingTask.id, {
-      title: trimmedTitle,
-      priority: taskPriority as "low" | "medium" | "high",
-    });
-
-    addActivity(`Você editou a tarefa "${trimmedTitle}".`);
-  } else {
-    await createTask({
-      title: trimmedTitle,
-      completed: false,
-      priority: taskPriority as "low" | "medium" | "high",
-    });
-
-    addActivity(`Você criou a tarefa "${trimmedTitle}".`);
-  }
-
-    setTaskTitle("");
-    setTaskPriority("medium");
-    setEditingTask(null);
+  function closeTaskModal() {
     setCreateModalOpen(false);
-    reload();
-  } finally {
-    setSaving(false);
+    setEditingTask(null);
+    setTaskTitle("");
+    setTaskDueDate("");
+    setTaskPriority("medium");
   }
-}
+
+  async function handleCreateTask(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    const trimmedTitle = taskTitle.trim();
+
+    if (!trimmedTitle || saving) {
+      return;
+    }
+
+    try {
+      setSaving(true);
+
+      if (editingTask) {
+        await updateTask(editingTask.id, {
+          title: trimmedTitle,
+          priority: taskPriority as "low" | "medium" | "high",
+          dueDate: taskDueDate || undefined,
+        });
+
+        addActivity(`Você editou a tarefa "${trimmedTitle}".`);
+      } else {
+        await createTask({
+          title: trimmedTitle,
+          completed: false,
+          priority: taskPriority as "low" | "medium" | "high",
+          dueDate: taskDueDate || undefined,
+        });
+
+        addActivity(`Você criou a tarefa "${trimmedTitle}".`);
+      }
+
+      closeTaskModal();
+      reload();
+    } finally {
+      setSaving(false);
+    }
+  }
 
   function handleStartEditTask(task: Task) {
     setEditingTask(task);
     setTaskTitle(task.title);
     setTaskPriority(task.priority);
+    setTaskDueDate(task.dueDate ?? "");
     setCreateModalOpen(true);
-}
+  }
 
   async function handleDeleteTask(id: string) {
     const confirmed = window.confirm(
@@ -251,6 +261,7 @@ export function TaskList() {
                 title={task.title}
                 completed={task.completed}
                 priority={task.priority}
+                dueDate={task.dueDate}
                 onDelete={() => handleDeleteTask(task.id)}
                 onEdit={() => handleStartEditTask(task)}
                 onToggleComplete={() => handleToggleTask(task)}
@@ -268,12 +279,7 @@ export function TaskList() {
             ? "Atualize as informacoes da tarefa."
             : "Aqui vamos criar o formulario de cadastro da tarefa."
         }
-        onClose={() => {
-          setCreateModalOpen(false);
-          setEditingTask(null);
-          setTaskTitle("");
-          setTaskPriority("medium");
-        }}
+        onClose={closeTaskModal}
       >
         <form onSubmit={handleCreateTask} className="space-y-5">
           <div className="space-y-2">
@@ -313,8 +319,25 @@ export function TaskList() {
             </select>
           </div>
 
+          <div className="space-y-2">
+            <label
+              htmlFor="task-due-date"
+              className="text-sm font-medium text-slate-700"
+            >
+              Data de vencimento
+            </label>
+
+            <input
+              id="task-due-date"
+              type="date"
+              value={taskDueDate}
+              onChange={(event) => setTaskDueDate(event.target.value)}
+              className="w-full rounded-xl border border-slate-300 px-4 py-2 text-sm outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+            />
+          </div>
+
           <div className="flex justify-end gap-3 pt-2">
-            <Button type="button" variant="secondary" onClick={() => setCreateModalOpen(false)}disabled={saving}>
+            <Button type="button" variant="secondary" onClick={closeTaskModal} disabled={saving}>
               Cancelar
             </Button>
 

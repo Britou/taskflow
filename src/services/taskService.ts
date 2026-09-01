@@ -22,26 +22,43 @@ export async function getTasks(): Promise<Task[]> {
   }));
 }
 
+function removeUndefinedFields(data: Record<string, unknown>) {
+  const cleanedData = { ...data };
+
+  Object.keys(cleanedData).forEach((key) => {
+    if (cleanedData[key] === undefined) {
+      delete cleanedData[key];
+    }
+  });
+
+  return cleanedData;
+}
+
 export async function createTask(
   task: Omit<Task, "id">
 ): Promise<void> {
-  await addDoc(collection(db, TASKS_COLLECTION), {
-    ...task,
-    createdAt: Date.now(),
-  });
+  await addDoc(
+    collection(db, TASKS_COLLECTION),
+    removeUndefinedFields({
+      ...task,
+      createdAt: Date.now(),
+    })
+  );
 }
 
 export async function updateTask(
   id: string,
   task: Partial<Omit<Task, "id">>
 ): Promise<void> {
-  const taskData = {
-    ...task,
-    dueDate:
-      "dueDate" in task && task.dueDate === undefined
-        ? deleteField()
-        : task.dueDate,
-  };
+  const taskData: Record<string, unknown> = removeUndefinedFields(task);
+
+  if ("dueDate" in task && task.dueDate === undefined) {
+    taskData.dueDate = deleteField();
+  }
+
+  if ("description" in task && task.description === undefined) {
+    taskData.description = deleteField();
+  }
 
   await updateDoc(doc(db, TASKS_COLLECTION, id), taskData);
 }

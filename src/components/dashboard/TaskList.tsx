@@ -17,6 +17,7 @@ export function TaskList() {
   const [taskTitle, setTaskTitle] = useState("");
   const [taskPriority, setTaskPriority] = useState("medium");
   const [taskDueDate, setTaskDueDate] = useState("");
+  const [taskDescription, setTaskDescription] = useState("");
   const [saving, setSaving] = useState(false);
   const [editingTask, setEditingTask] = useState<Task | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
@@ -86,9 +87,10 @@ export function TaskList() {
     setCreateModalOpen(false);
     setEditingTask(null);
     setTaskTitle("");
+    setTaskDescription("");
     setTaskDueDate("");
     setTaskPriority("medium");
-  }
+  } 
 
   async function handleCreateTask(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -105,6 +107,7 @@ export function TaskList() {
       if (editingTask) {
         await updateTask(editingTask.id, {
           title: trimmedTitle,
+          description: taskDescription.trim() || undefined,
           priority: taskPriority as "low" | "medium" | "high",
           dueDate: taskDueDate || undefined,
         });
@@ -113,6 +116,7 @@ export function TaskList() {
       } else {
         await createTask({
           title: trimmedTitle,
+          description: taskDescription.trim() || undefined,
           completed: false,
           priority: taskPriority as "low" | "medium" | "high",
           dueDate: taskDueDate || undefined,
@@ -131,6 +135,7 @@ export function TaskList() {
   function handleStartEditTask(task: Task) {
     setEditingTask(task);
     setTaskTitle(task.title);
+    setTaskDescription(task.description ?? "");
     setTaskPriority(task.priority);
     setTaskDueDate(task.dueDate ?? "");
     setCreateModalOpen(true);
@@ -231,6 +236,7 @@ export function TaskList() {
             </Button>
           </div>
         </div>
+
         <select
           value={sortOption}
           onChange={(event) => setSortOption(event.target.value)}
@@ -259,6 +265,7 @@ export function TaskList() {
               <TaskItem
                 key={task.id}
                 title={task.title}
+                description={task.description}
                 completed={task.completed}
                 priority={task.priority}
                 dueDate={task.dueDate}
@@ -289,7 +296,7 @@ export function TaskList() {
             >
               Titulo
             </label>
-
+        
             <input
               id="task-title"
               value={taskTitle}
@@ -297,6 +304,25 @@ export function TaskList() {
               placeholder="Ex: Criar formulario de login"
               className="w-full rounded-xl border border-slate-300 px-4 py-2 text-sm outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
             />
+            
+        <div className="space-y-2">
+          <label
+            htmlFor="task-description"
+            className="text-sm font-medium text-slate-700"
+          >
+            Descrição
+          </label>
+
+          <textarea
+            id="task-description"
+            value={taskDescription}
+            onChange={(event) => setTaskDescription(event.target.value)}
+            placeholder="Ex: Detalhes importantes sobre a tarefa"
+            rows={3}
+            className="w-full resize-none rounded-xl border border-slate-300 px-4 py-2 text-sm outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+          />
+        </div>
+        
           </div>
 
           <div className="space-y-2">

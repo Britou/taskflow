@@ -2,6 +2,7 @@ import { CalendarDays, CheckCircle2, Circle, Pencil, Trash2 } from "lucide-react
 
 type TaskItemProps = {
   title: string;
+  description?: string;
   completed?: boolean;
   priority: "low" | "medium" | "high";
   dueDate?: string;
@@ -34,6 +35,7 @@ function formatDueDate(dueDate: string) {
 
 export function TaskItem({
   title,
+  description,
   completed = false,
   priority,
   dueDate,
@@ -67,6 +69,12 @@ export function TaskItem({
             {title}
           </span>
 
+          {description ? (
+            <p className="max-w-xl text-sm text-slate-500">
+              {description}
+            </p>
+          ) : null}
+          
           {dueDate ? (
             <span className="flex items-center gap-1 text-xs text-slate-500">
               <CalendarDays size={14} />

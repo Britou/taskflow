@@ -33,6 +33,45 @@ function formatDueDate(dueDate: string) {
   return `${day}/${month}/${year}`;
 }
 
+function getTodayDateValue() {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, "0");
+  const day = String(today.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
+}
+
+function getDueDateStatus(dueDate: string, completed: boolean) {
+  if (completed) {
+    return {
+      label: "Concluída",
+      className: "bg-slate-50 text-slate-500 border-slate-200",
+    };
+  }
+
+  const today = getTodayDateValue();
+
+  if (dueDate < today) {
+    return {
+      label: "Atrasada",
+      className: "bg-red-50 text-red-700 border-red-200",
+    };
+  }
+
+  if (dueDate === today) {
+    return {
+      label: "Vence hoje",
+      className: "bg-orange-50 text-orange-700 border-orange-200",
+    };
+  }
+
+  return {
+    label: "No prazo",
+    className: "bg-emerald-50 text-emerald-700 border-emerald-200",
+  };
+}
+
 export function TaskItem({
   title,
   description,
@@ -43,6 +82,11 @@ export function TaskItem({
   onEdit,
   onToggleComplete,
 }: TaskItemProps) {
+
+  const dueDateStatus = dueDate
+    ? getDueDateStatus(dueDate, completed)
+    : null;
+
   return (
     <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-white p-4 transition hover:border-blue-300 hover:shadow-sm">
       <div className="flex items-center gap-3">
@@ -74,12 +118,20 @@ export function TaskItem({
               {description}
             </p>
           ) : null}
-          
-          {dueDate ? (
-            <span className="flex items-center gap-1 text-xs text-slate-500">
-              <CalendarDays size={14} />
-              Vence em {formatDueDate(dueDate)}
-            </span>
+
+          {dueDate && dueDateStatus ? (
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="flex items-center gap-1 text-xs text-slate-500">
+                <CalendarDays size={14} />
+                Vence em {formatDueDate(dueDate)}
+              </span>
+
+              <span
+                className={`rounded-full border px-2 py-0.5 text-xs font-medium ${dueDateStatus.className}`}
+              >
+                {dueDateStatus.label}
+              </span>
+            </div>
           ) : null}
         </div>
       </div>

@@ -29,7 +29,7 @@ export function MetricCard({
         />
       </div>
 
-      <h3 className="mt-6 text-4xl font-bold tracking-tight text-slate-900">
+      <h3 className="mt-6 break-words text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
         {value}
       </h3>
 

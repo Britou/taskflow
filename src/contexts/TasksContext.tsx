@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from "react";
 import type { ReactNode } from "react";
 import { getTasks } from "../services/taskService";
 import type { Task } from "../types/task";
-import { TasksContext } from "./tasksContext";
+import { TasksContext } from "./tasks-context";
 
 type TasksProviderProps = {
   children: ReactNode;

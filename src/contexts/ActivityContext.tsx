@@ -1,27 +1,12 @@
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-  type ReactNode,
-} from "react";
+import { useCallback, useEffect, useState } from "react";
 
-import type { Activity } from "../types/activity";
+import type { ReactNode } from "react";
 import {
   createActivity,
   getActivities,
 } from "../services/activityService";
-
-type ActivityContextType = {
-  activities: Activity[];
-  loading: boolean;
-  addActivity: (title: string) => Promise<void>;
-};
-
-const ActivityContext = createContext<ActivityContextType | undefined>(
-  undefined
-);
+import type { Activity } from "../types/activity";
+import { ActivityContext } from "./activity-context";
 
 type ActivityProviderProps = {
   children: ReactNode;
@@ -48,7 +33,7 @@ export function ActivityProvider({
   }, []);
 
   useEffect(() => {
-    loadActivities();
+    void Promise.resolve().then(loadActivities);
   }, [loadActivities]);
 
   const addActivity = useCallback(
@@ -75,16 +60,4 @@ export function ActivityProvider({
       {children}
     </ActivityContext.Provider>
   );
-}
-
-export function useActivityContext() {
-  const context = useContext(ActivityContext);
-
-  if (!context) {
-    throw new Error(
-      "useActivityContext deve ser usado dentro de um ActivityProvider."
-    );
-  }
-
-  return context;
 }

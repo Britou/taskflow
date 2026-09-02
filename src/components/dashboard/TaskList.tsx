@@ -7,7 +7,7 @@ import { Button } from "../../ui/Button";
 import { Modal } from "../../ui/Modal";
 import { TaskItem } from "./TaskItem";
 import { useTasks } from "../../hooks/useTasks";
-import { useActivityContext } from "../../contexts/ActivityContext";
+import { useActivity } from "../../hooks/useActivity";
 import { SectionHeader } from "../common/SectionHeader";
 import { createTask, deleteTask, updateTask } from "../../services/taskService";
 
@@ -81,7 +81,7 @@ export function TaskList() {
     return 0;
   });
 
-  const { addActivity } = useActivityContext();
+  const { addActivity } = useActivity();
 
   function closeTaskModal() {
     setCreateModalOpen(false);

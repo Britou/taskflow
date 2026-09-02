@@ -1,9 +1,9 @@
 import { Card } from "../../ui/Card";
 import { ActivityItem } from "./ActivityItem";
-import { useActivityContext } from "../../contexts/ActivityContext";
+import { useActivity } from "../../hooks/useActivity";
 
 export function ActivityList() {
-  const { activities } = useActivityContext();
+  const { activities } = useActivity();
 
   return (
     <Card>

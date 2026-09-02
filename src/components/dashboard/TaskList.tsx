@@ -296,7 +296,7 @@ export function TaskList() {
             >
               Titulo
             </label>
-        
+
             <input
               id="task-title"
               value={taskTitle}
@@ -304,25 +304,24 @@ export function TaskList() {
               placeholder="Ex: Criar formulario de login"
               className="w-full rounded-xl border border-slate-300 px-4 py-2 text-sm outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
             />
-            
-        <div className="space-y-2">
-          <label
-            htmlFor="task-description"
-            className="text-sm font-medium text-slate-700"
-          >
-            Descrição
-          </label>
+          </div>
 
-          <textarea
-            id="task-description"
-            value={taskDescription}
-            onChange={(event) => setTaskDescription(event.target.value)}
-            placeholder="Ex: Detalhes importantes sobre a tarefa"
-            rows={3}
-            className="w-full resize-none rounded-xl border border-slate-300 px-4 py-2 text-sm outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
-          />
-        </div>
-        
+          <div className="space-y-2">
+            <label
+              htmlFor="task-description"
+              className="text-sm font-medium text-slate-700"
+            >
+              Descrição
+            </label>
+
+            <textarea
+              id="task-description"
+              value={taskDescription}
+              onChange={(event) => setTaskDescription(event.target.value)}
+              placeholder="Ex: Detalhes importantes sobre a tarefa"
+              rows={3}
+              className="w-full resize-none rounded-xl border border-slate-300 px-4 py-2 text-sm outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+            />
           </div>
 
           <div className="space-y-2">
@@ -362,7 +361,7 @@ export function TaskList() {
             />
           </div>
 
-          <div className="flex justify-end gap-3 pt-2">
+          <div className="flex flex-col-reverse gap-3 pt-2 sm:flex-row sm:justify-end">
             <Button type="button" variant="secondary" onClick={closeTaskModal} disabled={saving}>
               Cancelar
             </Button>

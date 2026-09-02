@@ -18,8 +18,8 @@ export function ActivityItem({
         />
       </div>
 
-      <div className="flex-1">
-        <p className="font-medium text-slate-700">
+      <div className="min-w-0 flex-1">
+        <p className="break-words font-medium text-slate-700">
           {title}
         </p>
 

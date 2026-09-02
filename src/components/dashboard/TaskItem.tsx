@@ -88,11 +88,12 @@ export function TaskItem({
     : null;
 
   return (
-    <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-white p-4 transition hover:border-blue-300 hover:shadow-sm">
-      <div className="flex items-center gap-3">
+    <div className="flex flex-col gap-4 rounded-xl border border-slate-200 bg-white p-4 transition hover:border-blue-300 hover:shadow-sm sm:flex-row sm:items-start sm:justify-between">
+      <div className="flex min-w-0 items-start gap-3">
         <button
           type="button"
           onClick={onToggleComplete}
+          className="mt-0.5 shrink-0 text-slate-500 transition hover:text-blue-600"
           aria-label={completed ? "Marcar como pendente" : "Marcar como concluída"}
         >
           {completed ? (
@@ -102,19 +103,19 @@ export function TaskItem({
           )}
         </button>
 
-        <div className="space-y-1">
+        <div className="min-w-0 space-y-1">
           <span
             className={
               completed
-                ? "block text-slate-400 line-through"
-                : "block font-medium text-slate-700"
+                ? "block break-words text-slate-400 line-through"
+                : "block break-words font-medium text-slate-700"
             }
           >
             {title}
           </span>
 
           {description ? (
-            <p className="max-w-xl text-sm text-slate-500">
+            <p className="max-w-xl break-words text-sm text-slate-500">
               {description}
             </p>
           ) : null}
@@ -135,7 +136,7 @@ export function TaskItem({
           ) : null}
         </div>
       </div>
-      <div className="flex items-center gap-2">
+      <div className="flex shrink-0 items-center justify-end gap-2 sm:self-start">
         <span
           className={`rounded-full border px-3 py-1 text-xs font-medium ${priorityStyles[priority]}`}
         >

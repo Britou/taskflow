@@ -44,12 +44,12 @@ export function CalendarPage() {
   );
 
   return (
-    <div className="mx-auto max-w-7xl space-y-8">
+    <div className="mx-auto max-w-7xl space-y-6 sm:space-y-8">
       <section className="space-y-2">
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3">
           <CalendarDays className="text-blue-600" size={28} />
 
-          <h1 className="text-3xl font-bold tracking-tight text-slate-900">
+          <h1 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
             Calendário
           </h1>
         </div>
@@ -82,26 +82,26 @@ export function CalendarPage() {
                       key={task.id}
                       className="rounded-xl border border-slate-200 bg-white p-4"
                     >
-                      <div className="flex items-start justify-between gap-4">
-                        <div className="space-y-1">
+                      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                        <div className="min-w-0 space-y-1">
                           <h3
                             className={
                               task.completed
-                                ? "font-medium text-slate-400 line-through"
-                                : "font-medium text-slate-800"
+                                ? "break-words font-medium text-slate-400 line-through"
+                                : "break-words font-medium text-slate-800"    
                             }
                           >
                             {task.title}
                           </h3>
 
                           {task.description ? (
-                            <p className="text-sm text-slate-500">
+                            <p className="break-words text-sm text-slate-500">
                               {task.description}
                             </p>
                           ) : null}
                         </div>
 
-                        <span className="rounded-full border border-slate-200 px-3 py-1 text-xs font-medium text-slate-600">
+                        <span className="w-fit shrink-0 rounded-full border border-slate-200 px-3 py-1 text-xs font-medium text-slate-600">
                           {task.completed ? "Concluída" : "Pendente"}
                         </span>
                       </div>

@@ -195,7 +195,7 @@ export function TaskList() {
     <>
       <Card>
         <div className="space-y-5">
-        <SectionHeader
+          <SectionHeader
           title="Proximas tarefas"
           description="Acompanhe as atividades em andamento."
           action={
@@ -208,7 +208,7 @@ export function TaskList() {
             >
               <Plus size={16} />
               Nova tarefa
-          </Button>
+            </Button>
           }
         />
         <div className="mb-6 space-y-3">
@@ -324,8 +324,8 @@ export function TaskList() {
             ))}
           </div>
         )}
-            </div>
-      </Card>
+      </div>
+    </Card>
 
       <Modal
         open={createModalOpen}
@@ -428,7 +428,7 @@ export function TaskList() {
             </Button>
           </div>
         </form>
-          </Modal>
-        </>
-      );
-      }
+      </Modal>
+    </>
+  );
+}

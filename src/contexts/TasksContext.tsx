@@ -1,15 +1,9 @@
-import { createContext, useCallback, useContext, useEffect, useState, type ReactNode, } from "react";
+import { useCallback, useEffect, useState } from "react";
 
+import type { ReactNode } from "react";
 import { getTasks } from "../services/taskService";
 import type { Task } from "../types/task";
-
-type TasksContextType = {
-  tasks: Task[];
-  loading: boolean;
-  reload: () => Promise<void>;
-};
-
-const TasksContext = createContext<TasksContextType | undefined>(undefined);
+import { TasksContext } from "./tasksContext";
 
 type TasksProviderProps = {
   children: ReactNode;
@@ -34,7 +28,7 @@ export function TasksProvider({ children }: TasksProviderProps) {
   }, []);
 
   useEffect(() => {
-    loadTasks();
+    void Promise.resolve().then(loadTasks);
   }, [loadTasks]);
 
   return (
@@ -48,16 +42,4 @@ export function TasksProvider({ children }: TasksProviderProps) {
       {children}
     </TasksContext.Provider>
   );
-}
-
-export function useTasksContext() {
-  const context = useContext(TasksContext);
-
-  if (!context) {
-    throw new Error(
-      "useTasksContext deve ser usado dentro de um TasksProvider."
-    );
-  }
-
-  return context;
 }

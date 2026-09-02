@@ -1,5 +1,13 @@
-import { useTasksContext } from "../contexts/TasksContext";
+import { useContext } from "react";
+
+import { TasksContext } from "../contexts/tasksContext";
 
 export function useTasks() {
-  return useTasksContext();
+  const context = useContext(TasksContext);
+
+  if (!context) {
+    throw new Error("useTasks deve ser usado dentro de um TasksProvider.");
+  }
+
+  return context;
 }

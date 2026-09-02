@@ -24,6 +24,13 @@ export function TaskList() {
   const [priorityFilter, setPriorityFilter] = useState("all");
   const [statusFilter, setStatusFilter] = useState("all");
   const { tasks, loading, reload } = useTasks();
+
+  const hasActiveFilters =
+    searchTerm.trim() !== "" ||
+    priorityFilter !== "all" ||
+    statusFilter !== "all" ||
+    sortOption !== "default";
+
   const filteredTasks = tasks.filter((task) => {
     const matchesSearch = task.title
       .toLowerCase()
@@ -256,9 +263,36 @@ export function TaskList() {
             Carregando tarefas...
           </p>
         ) : filteredTasks.length === 0 ? (
-          <p className="text-sm text-slate-500">
-            Nenhuma tarefa encontrada.
-          </p>
+          <div className="rounded-xl border border-dashed border-slate-300 bg-slate-50 px-4 py-8 text-center">
+            <p className="text-sm font-medium text-slate-700">
+              {tasks.length === 0
+                ? "Nenhuma tarefa cadastrada."
+                : "Nenhuma tarefa encontrada."}
+            </p>
+
+            <p className="mt-1 text-sm text-slate-500">
+              {tasks.length === 0
+                ? "Crie sua primeira tarefa para começar a acompanhar seu fluxo."
+                : "Ajuste ou limpe os filtros para ver mais resultados."}
+            </p>
+
+            {hasActiveFilters ? (
+              <div className="mt-4">
+                <Button
+                  type="button"
+                  variant="secondary"
+                  onClick={() => {
+                    setSearchTerm("");
+                    setPriorityFilter("all");
+                    setStatusFilter("all");
+                    setSortOption("default");
+                  }}
+                >
+                  Limpar filtros
+                </Button>
+              </div>
+            ) : null}
+          </div>
         ) : (
           <div className="space-y-3">
             {sortedTasks.map((task) => (

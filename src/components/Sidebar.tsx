@@ -9,7 +9,7 @@ import {
 
 export function Sidebar() {
   return (
-    <aside className="flex min-h-screen w-64 flex-col bg-slate-900 text-white">
+    <aside className="flex w-full flex-col bg-slate-900 text-white lg:min-h-screen lg:w-64">
       {/* Logo */}
       <div className="border-b border-slate-800 px-6 py-6">
         <h1 className="text-3xl font-bold">TaskFlow</h1>
@@ -20,8 +20,8 @@ export function Sidebar() {
       </div>
 
       {/* Navegação */}
-      <nav className="flex-1 px-4 py-6">
-        <ul className="space-y-2">
+      <nav className="flex-1 overflow-x-auto px-4 py-4 lg:py-6">
+        <ul className="flex gap-2 lg:block lg:space-y-2">
           <li>
             <NavLink
               to="/dashboard"

@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 import {
   LayoutDashboard,
   CheckSquare,
@@ -22,10 +23,19 @@ export function Sidebar() {
       <nav className="flex-1 px-4 py-6">
         <ul className="space-y-2">
           <li>
-            <button className="flex w-full items-center gap-3 rounded-xl bg-slate-800 px-4 py-3 font-medium transition hover:bg-slate-700">
+            <NavLink
+              to="/dashboard"
+              className={({ isActive }) =>
+                `flex w-full items-center gap-3 rounded-xl px-4 py-3 font-medium transition ${
+                  isActive
+                    ? "bg-slate-800 text-white"
+                    : "text-slate-300 hover:bg-slate-800 hover:text-white"
+                }`
+              }
+            >
               <LayoutDashboard size={20} />
               Dashboard
-            </button>
+            </NavLink>
           </li>
 
           <li>
@@ -36,10 +46,19 @@ export function Sidebar() {
           </li>
 
           <li>
-            <button className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-slate-300 transition hover:bg-slate-800 hover:text-white">
+            <NavLink
+              to="/calendar"
+              className={({ isActive }) =>
+                `flex w-full items-center gap-3 rounded-xl px-4 py-3 font-medium transition ${
+                  isActive
+                    ? "bg-slate-800 text-white"
+                    : "text-slate-300 hover:bg-slate-800 hover:text-white"
+                }`
+              }
+            >
               <Calendar size={20} />
               Calendário
-            </button>
+            </NavLink>
           </li>
 
           <li>

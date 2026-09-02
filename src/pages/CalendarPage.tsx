@@ -13,6 +13,36 @@ function formatDateLabel(date: string) {
   return `${day}/${month}/${year}`;
 }
 
+function CalendarPageSkeleton() {
+  return (
+    <div className="space-y-6">
+      {Array.from({ length: 2 }).map((_, groupIndex) => (
+        <section key={groupIndex} className="space-y-3">
+          <div className="h-4 w-24 animate-pulse rounded bg-slate-200" />
+
+          <div className="space-y-3">
+            {Array.from({ length: 2 }).map((_, taskIndex) => (
+              <div
+                key={taskIndex}
+                className="rounded-xl border border-slate-200 bg-white p-4"
+              >
+                <div className="flex animate-pulse flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                  <div className="flex-1 space-y-3">
+                    <div className="h-4 w-2/3 rounded bg-slate-200" />
+                    <div className="h-3 w-full rounded bg-slate-100" />
+                  </div>
+
+                  <div className="h-6 w-20 rounded-full bg-slate-100" />
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      ))}
+    </div>
+  );
+}
+
 export function CalendarPage() {
   const { tasks, loading } = useTasks();
 
@@ -61,13 +91,17 @@ export function CalendarPage() {
 
       <Card>
         {loading ? (
-          <p className="text-sm text-slate-500">
-            Carregando tarefas...
-          </p>
+          <CalendarPageSkeleton />
         ) : tasksWithDueDate.length === 0 ? (
-          <p className="text-sm text-slate-500">
-            Nenhuma tarefa com data de vencimento encontrada.
-          </p>
+          <div className="rounded-xl border border-dashed border-slate-300 bg-slate-50 px-4 py-8 text-center">
+            <p className="text-sm font-medium text-slate-700">
+              Nenhuma tarefa com vencimento.
+            </p>
+
+            <p className="mt-1 text-sm text-slate-500">
+              Adicione uma data de vencimento nas tarefas para visualizá-las aqui.
+            </p>
+          </div>
         ) : (
           <div className="space-y-6">
             {Object.entries(tasksByDate).map(([date, dateTasks]) => (
@@ -88,7 +122,7 @@ export function CalendarPage() {
                             className={
                               task.completed
                                 ? "break-words font-medium text-slate-400 line-through"
-                                : "break-words font-medium text-slate-800"    
+                                : "break-words font-medium text-slate-800"
                             }
                           >
                             {task.title}

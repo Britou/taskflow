@@ -19,6 +19,7 @@ export function TaskList() {
   const [taskDueDate, setTaskDueDate] = useState("");
   const [taskDescription, setTaskDescription] = useState("");
   const [saving, setSaving] = useState(false);
+  const [formError, setFormError] = useState("");
   const [editingTask, setEditingTask] = useState<Task | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [priorityFilter, setPriorityFilter] = useState("all");
@@ -97,7 +98,8 @@ export function TaskList() {
     setTaskDescription("");
     setTaskDueDate("");
     setTaskPriority("medium");
-  } 
+    setFormError("");
+  }
 
   async function handleCreateTask(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -110,6 +112,7 @@ export function TaskList() {
 
     try {
       setSaving(true);
+      setFormError("");
 
       if (editingTask) {
         await updateTask(editingTask.id, {
@@ -134,6 +137,9 @@ export function TaskList() {
 
       closeTaskModal();
       reload();
+    } catch (error) {
+      console.error("Erro ao salvar tarefa:", error);
+      setFormError("Não foi possível salvar a tarefa. Tente novamente.");
     } finally {
       setSaving(false);
     }
@@ -145,6 +151,7 @@ export function TaskList() {
     setTaskDescription(task.description ?? "");
     setTaskPriority(task.priority);
     setTaskDueDate(task.dueDate ?? "");
+    setFormError("");
     setCreateModalOpen(true);
   }
 
@@ -185,13 +192,20 @@ export function TaskList() {
   }
 
   return (
-    <Card>
-      <div className="space-y-5">
+    <>
+      <Card>
+        <div className="space-y-5">
         <SectionHeader
           title="Proximas tarefas"
           description="Acompanhe as atividades em andamento."
           action={
-            <Button className="h-10 px-4" onClick={() => setCreateModalOpen(true)}>
+            <Button
+              className="h-10 px-4"
+              onClick={() => {
+                setFormError("");
+                setCreateModalOpen(true);
+              }}
+            >
               <Plus size={16} />
               Nova tarefa
           </Button>
@@ -310,8 +324,9 @@ export function TaskList() {
             ))}
           </div>
         )}
-      </div>
-      
+            </div>
+      </Card>
+
       <Modal
         open={createModalOpen}
         title={editingTask ? "Editar tarefa" : "Nova tarefa"}
@@ -323,6 +338,14 @@ export function TaskList() {
         onClose={closeTaskModal}
       >
         <form onSubmit={handleCreateTask} className="space-y-5">
+          {formError ? (
+            <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3">
+              <p className="text-sm font-medium text-red-700">
+                {formError}
+              </p>
+            </div>
+          ) : null}
+
           <div className="space-y-2">
             <label
               htmlFor="task-title"
@@ -405,7 +428,7 @@ export function TaskList() {
             </Button>
           </div>
         </form>
-      </Modal>
-    </Card>
-  );
-}
+          </Modal>
+        </>
+      );
+      }

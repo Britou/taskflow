@@ -14,9 +14,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (email === "admin@email.com" && password === "123") {
       setUser(email);
       localStorage.setItem("user", email);
-    } else {
-      alert("Credenciais inválidas");
+
+      return true;
     }
+
+    return false;
   }
 
   function logout() {

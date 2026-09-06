@@ -9,12 +9,19 @@ export function Login() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   function handleLogin(e: React.FormEvent) {
     e.preventDefault();
 
-    login(email, password);
+    const loggedIn = login(email, password);
 
+    if (!loggedIn) {
+      setError("E-mail ou senha inválidos.");
+      return;
+    }
+
+    setError("");
     navigate("/dashboard");
   }
 
@@ -59,6 +66,14 @@ export function Login() {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
+
+            {error ? (
+              <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3">
+                <p className="text-sm font-medium text-red-700">
+                  {error}
+                </p>
+              </div>
+            ) : null}
 
           <Button type="submit" className="w-full">
             Entrar

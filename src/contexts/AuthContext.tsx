@@ -1,9 +1,22 @@
 import { useEffect, useState } from "react";
 import {
+  createUserWithEmailAndPassword,
   onAuthStateChanged,
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
+
+async function register(email: string, password: string) {
+  try {
+    await createUserWithEmailAndPassword(auth, email, password);
+
+    return true;
+  } catch (error) {
+    console.error("Erro ao criar conta:", error);
+
+    return false;
+  }
+}
 
 import type { ReactNode } from "react";
 import type { User } from "firebase/auth";
@@ -40,7 +53,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, logout }}>
+    <AuthContext.Provider value={{ user, loading, login, register, logout }}>
       {children}
     </AuthContext.Provider>
   );

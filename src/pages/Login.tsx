@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import { Button } from "../ui/Button";
 
@@ -88,8 +88,14 @@ export function Login() {
           </Button>
         </form>
 
-        <p className="text-sm text-slate-500 mt-6 text-center">
-          Cadastro de novos usuários em breve.
+        <p className="mt-6 text-center text-sm text-slate-500">
+          Não possui conta?{" "}
+          <Link
+            to="/register"
+            className="font-semibold text-slate-900"
+          >
+            Criar conta
+          </Link>
         </p>
       </div>
     </div>

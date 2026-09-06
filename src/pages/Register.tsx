@@ -13,6 +13,7 @@ export function Register() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
+  const [submitting, setSubmitting] = useState(false);
 
   if (user) {
     return <Navigate to="/dashboard" replace />;
@@ -31,19 +32,25 @@ export function Register() {
       return;
     }
 
-    setError("");
+    setSubmitting(true);
 
-    const result = await register(email, password);
+    try {
+      setError("");
 
-    if (!result.success) {
-      setError(
-        result.message ??
-          "Não foi possível criar a conta. Verifique os dados informados."
-      );
-      return;
+      const result = await register(email, password);
+
+      if (!result.success) {
+        setError(
+          result.message ??
+            "Não foi possível criar a conta. Verifique os dados informados."
+        );
+        return;
+      }
+
+      navigate("/dashboard");
+    } finally {
+      setSubmitting(false);
     }
-
-    navigate("/dashboard");
   }
 
   return (
@@ -126,8 +133,8 @@ export function Register() {
             </div>
           ) : null}
 
-          <Button type="submit" className="w-full">
-            Criar conta
+          <Button type="submit" className="w-full" disabled={submitting}>
+            {submitting ? "Criando conta..." : "Criar conta"}
           </Button>
         </form>
 

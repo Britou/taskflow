@@ -10,6 +10,7 @@ export function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [submitting, setSubmitting] = useState(false);
 
   if (user) {
     return <Navigate to="/dashboard" replace />;
@@ -17,17 +18,22 @@ export function Login() {
 
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
+    setSubmitting(true);
 
-    setError("");
+    try {
+      setError("");
 
-    const result = await login(email, password);
+      const result = await login(email, password);
 
-    if (!result.success) {
-      setError(result.message ?? "E-mail ou senha inválidos.");
-      return;
+      if (!result.success) {
+        setError(result.message ?? "E-mail ou senha inválidos.");
+        return;
+      }
+
+      navigate("/dashboard");
+    } finally {
+      setSubmitting(false);
     }
-
-    navigate("/dashboard");
   }
 
   return (
@@ -84,8 +90,8 @@ export function Login() {
               </p>
             </div>
           ) : null}
-          <Button type="submit" className="w-full">
-            Entrar no TaskFlow
+          <Button type="submit" className="w-full" disabled={submitting}>
+            {submitting ? "Entrando..." : "Entrar no TaskFlow"}
           </Button>
         </form>
 

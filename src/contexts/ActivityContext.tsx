@@ -7,6 +7,7 @@ import {
 } from "../services/activityService";
 import type { Activity } from "../types/activity";
 import { ActivityContext } from "./activity-context";
+import { useAuth } from "../hooks/useAuth";
 
 type ActivityProviderProps = {
   children: ReactNode;
@@ -17,12 +18,18 @@ export function ActivityProvider({
 }: ActivityProviderProps) {
   const [activities, setActivities] = useState<Activity[]>([]);
   const [loading, setLoading] = useState(true);
+  const { user } = useAuth();
 
   const loadActivities = useCallback(async () => {
+    if (!user) {
+      setActivities([]);
+      setLoading(false);
+      return;
+    }
     try {
       setLoading(true);
 
-      const data = await getActivities();
+      const data = await getActivities(user.uid);
 
       setActivities(data);
     } catch (error) {
@@ -30,7 +37,7 @@ export function ActivityProvider({
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [user]);
 
   useEffect(() => {
     void Promise.resolve().then(loadActivities);
@@ -38,15 +45,18 @@ export function ActivityProvider({
 
   const addActivity = useCallback(
     async (title: string) => {
+      if (!user) {
+        return;
+      }
       try {
-        await createActivity(title);
+        await createActivity(title, user.uid);
 
         await loadActivities();
       } catch (error) {
         console.error("Erro ao registrar atividade:", error);
       }
     },
-    [loadActivities]
+    [loadActivities, user]
   );
 
   return (

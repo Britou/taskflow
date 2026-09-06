@@ -6,6 +6,7 @@ import {
   orderBy,
   query,
   serverTimestamp,
+  where,
 } from "firebase/firestore";
 
 import { db } from "../services/firebase";
@@ -54,19 +55,21 @@ function formatRelativeTime(date: Date): string {
   return `Há ${differenceInDays} dias`;
 }
 
-export async function createActivity(title: string) {
+export async function createActivity(title: string, userId: string) {
   await addDoc(activitiesCollection, {
     title,
+    userId,
     createdAt: serverTimestamp(),
   });
 }
 
-export async function getActivities(): Promise<Activity[]> {
+export async function getActivities(userId: string): Promise<Activity[]> {
   const activitiesQuery = query(
-  activitiesCollection,
-  orderBy("createdAt", "desc"),
-  limit(5)
-);
+    activitiesCollection,
+    where("userId", "==", userId),
+    orderBy("createdAt", "desc"),
+    limit(5)
+  );
 
   const snapshot = await getDocs(activitiesQuery);
 
@@ -81,6 +84,7 @@ export async function getActivities(): Promise<Activity[]> {
       id: doc.id,
       title: data.title,
       time: formatRelativeTime(createdAt),
+      userId: data.userId,
     };
   });
 }

@@ -40,12 +40,15 @@ export function Login() {
 
         <form onSubmit={handleLogin} className="flex flex-col gap-4">
           <div>
-            <label className="text-sm text-slate-600">
+            <label htmlFor="email" className="text-sm text-slate-600">
               E-mail
             </label>
 
             <input
+              id="email"
               type="email"
+              autoComplete="email"
+              required
               placeholder="Digite seu e-mail"
               className="w-full mt-1 p-3 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-800"
               value={email}
@@ -54,29 +57,30 @@ export function Login() {
           </div>
 
           <div>
-            <label className="text-sm text-slate-600">
+            <label htmlFor="password" className="text-sm text-slate-600">
               Senha
             </label>
 
             <input
+              id="password"
               type="password"
+              autoComplete="current-password"
+              required
               placeholder="Digite sua senha"
               className="w-full mt-1 p-3 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-800"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-
-                {error ? (
-                  <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3">
-                    <p className="text-sm font-medium text-red-700">
-                      {error}
-                    </p>
-                  </div>
-                ) : null}
-
+          {error ? (
+            <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3">
+              <p className="text-sm font-medium text-red-700">
+                {error}
+              </p>
+            </div>
+          ) : null}
           <Button type="submit" className="w-full">
-            Entrar
+            Entrar no TaskFlow
           </Button>
         </form>
 

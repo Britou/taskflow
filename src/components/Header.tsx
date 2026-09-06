@@ -1,8 +1,11 @@
+import { useNavigate } from "react-router-dom";
+
 import { useAuth } from "../hooks/useAuth";
 import { Button } from "../ui/Button";
 
 export function Header() {
   const { user, logout } = useAuth();
+  const navigate = useNavigate();
 
   return (
     <header className="flex flex-col gap-3 border-b border-slate-200 bg-white px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
@@ -19,8 +22,9 @@ export function Header() {
       <Button
         variant="secondary"
         className="w-full sm:w-auto"
-        onClick={() => {
-        void logout();
+        onClick={async () => {
+        await logout();
+        navigate("/login");
       }}
       >
         Sair

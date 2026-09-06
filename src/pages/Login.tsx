@@ -1,15 +1,19 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import { Button } from "../ui/Button";
 
 export function Login() {
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { login, user } = useAuth();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+
+  if (user) {
+    return <Navigate to="/dashboard" replace />;
+  }
 
   function handleLogin(e: React.FormEvent) {
     e.preventDefault();
@@ -26,8 +30,8 @@ export function Login() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-100 flex items-center justify-center px-4">
-      <div className="bg-white w-full max-w-md p-8 rounded-2xl shadow-lg">
+    <div className="flex min-h-screen items-center justify-center bg-slate-100 px-4 py-8">
+      <div className="w-full max-w-md rounded-2xl bg-white p-6 shadow-lg sm:p-8">
         <div className="mb-8 text-center">
           <h1 className="text-4xl font-bold text-slate-900">
             TaskFlow

@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
+import { useAuth } from "../hooks/useAuth";
 
 import type { ReactNode } from "react";
 import { getTasks } from "../services/taskService";
@@ -12,12 +13,19 @@ type TasksProviderProps = {
 export function TasksProvider({ children }: TasksProviderProps) {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(true);
+  const { user } = useAuth();
 
   const loadTasks = useCallback(async () => {
+    if (!user) {
+      setTasks([]);
+      setLoading(false);
+      return;
+    }
+
     try {
       setLoading(true);
 
-      const data = await getTasks();
+      const data = await getTasks(user.uid);
 
       setTasks(data);
     } catch (error) {
@@ -25,7 +33,7 @@ export function TasksProvider({ children }: TasksProviderProps) {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [user]);
 
   useEffect(() => {
     void Promise.resolve().then(loadTasks);

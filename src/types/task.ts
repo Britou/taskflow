@@ -6,4 +6,5 @@ export type Task = {
   createdAt?: number;
   dueDate?: string;
   description?: string;
+  userId?: string;
 };

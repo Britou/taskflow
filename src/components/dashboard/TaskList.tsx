@@ -6,6 +6,7 @@ import { Card } from "../../ui/Card";
 import { Button } from "../../ui/Button";
 import { Modal } from "../../ui/Modal";
 import { TaskItem } from "./TaskItem";
+import { useAuth } from "../../hooks/useAuth";
 import { useTasks } from "../../hooks/useTasks";
 import { useActivity } from "../../hooks/useActivity";
 import { SectionHeader } from "../common/SectionHeader";
@@ -47,6 +48,7 @@ export function TaskList() {
   const [priorityFilter, setPriorityFilter] = useState("all");
   const [statusFilter, setStatusFilter] = useState("all");
   const { tasks, loading, reload } = useTasks();
+  const { user } = useAuth();
 
   const hasActiveFilters =
     searchTerm.trim() !== "" ||
@@ -146,13 +148,21 @@ export function TaskList() {
 
         addActivity(`Você editou a tarefa "${trimmedTitle}".`);
       } else {
-        await createTask({
-          title: trimmedTitle,
-          description: taskDescription.trim() || undefined,
-          completed: false,
-          priority: taskPriority as "low" | "medium" | "high",
-          dueDate: taskDueDate || undefined,
-        });
+        if (!user) {
+          setFormError("Você precisa estar autenticado para criar tarefas.");
+          return;
+        }
+
+        await createTask(
+          {
+            title: trimmedTitle,
+            description: taskDescription.trim() || undefined,
+            completed: false,
+            priority: taskPriority as "low" | "medium" | "high",
+            dueDate: taskDueDate || undefined,
+          },
+          user.uid
+        );
 
         addActivity(`Você criou a tarefa "${trimmedTitle}".`);
       }

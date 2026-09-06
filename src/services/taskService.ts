@@ -6,6 +6,8 @@ import {
   deleteField,
   updateDoc,
   doc,
+  query,
+  where,
 } from "firebase/firestore";
 
 import { db } from "./firebase";
@@ -13,8 +15,13 @@ import type { Task } from "../types/task";
 
 const TASKS_COLLECTION = "tasks";
 
-export async function getTasks(): Promise<Task[]> {
-  const snapshot = await getDocs(collection(db, TASKS_COLLECTION));
+export async function getTasks(userId: string): Promise<Task[]> {
+  const tasksQuery = query(
+    collection(db, TASKS_COLLECTION),
+    where("userId", "==", userId)
+  );
+
+  const snapshot = await getDocs(tasksQuery);
 
   return snapshot.docs.map((document) => ({
     id: document.id,
@@ -35,12 +42,14 @@ function removeUndefinedFields(data: Record<string, unknown>) {
 }
 
 export async function createTask(
-  task: Omit<Task, "id">
+  task: Omit<Task, "id" | "userId">,
+  userId: string
 ): Promise<void> {
   await addDoc(
     collection(db, TASKS_COLLECTION),
     removeUndefinedFields({
       ...task,
+      userId,
       createdAt: Date.now(),
     })
   );

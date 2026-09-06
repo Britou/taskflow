@@ -15,7 +15,12 @@ export function DashboardHeader() {
       </div>
 
       <div className="flex w-full items-center justify-between gap-3 sm:w-auto sm:justify-end">
-        <button className="flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 bg-white shadow-sm transition hover:bg-slate-50">
+        <button
+          type="button"
+          disabled
+          className="flex h-11 w-11 cursor-not-allowed items-center justify-center rounded-full border border-slate-200 bg-white text-slate-400 shadow-sm"
+          title="Notificações em breve"
+        >
           <Bell size={18} />
         </button>
 

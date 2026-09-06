@@ -12,14 +12,16 @@ export function Header() {
         </p>
 
         <p className="break-words font-medium text-slate-900">
-          {user ?? "admin@email.com"}
+          {user?.email ?? "Usuário autenticado"}
         </p>
       </div>
 
       <Button
         variant="secondary"
         className="w-full sm:w-auto"
-        onClick={logout}
+        onClick={() => {
+        void logout();
+      }}
       >
         Sair
       </Button>

@@ -15,10 +15,10 @@ export function Login() {
     return <Navigate to="/dashboard" replace />;
   }
 
-  function handleLogin(e: React.FormEvent) {
+  async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
 
-    const loggedIn = login(email, password);
+    const loggedIn = await login(email, password);
 
     if (!loggedIn) {
       setError("E-mail ou senha inválidos.");

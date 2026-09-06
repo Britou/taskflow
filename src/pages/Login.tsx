@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import { Button } from "../ui/Button";
 
@@ -67,13 +67,13 @@ export function Login() {
             />
           </div>
 
-            {error ? (
-              <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3">
-                <p className="text-sm font-medium text-red-700">
-                  {error}
-                </p>
-              </div>
-            ) : null}
+                {error ? (
+                  <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3">
+                    <p className="text-sm font-medium text-red-700">
+                      {error}
+                    </p>
+                  </div>
+                ) : null}
 
           <Button type="submit" className="w-full">
             Entrar
@@ -81,13 +81,7 @@ export function Login() {
         </form>
 
         <p className="text-sm text-slate-500 mt-6 text-center">
-          Não possui conta?{" "}
-          <Link
-            to="/register"
-            className="text-slate-900 font-semibold"
-          >
-            Criar conta
-          </Link>
+          Cadastro de novos usuários em breve.
         </p>
       </div>
     </div>

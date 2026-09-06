@@ -18,14 +18,15 @@ export function Login() {
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
 
-    const loggedIn = await login(email, password);
+    setError("");
 
-    if (!loggedIn) {
-      setError("E-mail ou senha inválidos.");
+    const result = await login(email, password);
+
+    if (!result.success) {
+      setError(result.message ?? "E-mail ou senha inválidos.");
       return;
     }
 
-    setError("");
     navigate("/dashboard");
   }
 

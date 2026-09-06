@@ -31,14 +31,18 @@ export function Register() {
       return;
     }
 
-    const registered = await register(email, password);
+    setError("");
 
-    if (!registered) {
-      setError("Não foi possível criar a conta. Verifique os dados informados.");
+    const result = await register(email, password);
+
+    if (!result.success) {
+      setError(
+        result.message ??
+          "Não foi possível criar a conta. Verifique os dados informados."
+      );
       return;
     }
 
-    setError("");
     navigate("/dashboard");
   }
 

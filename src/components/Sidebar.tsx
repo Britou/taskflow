@@ -39,7 +39,12 @@ export function Sidebar() {
           </li>
 
           <li>
-            <button className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-slate-300 transition hover:bg-slate-800 hover:text-white">
+            <button
+              type="button"
+              disabled
+              className="flex w-full cursor-not-allowed items-center gap-3 rounded-xl px-4 py-3 text-slate-500"
+              title="Em breve"
+            >
               <CheckSquare size={20} />
               Tarefas
             </button>
@@ -62,14 +67,24 @@ export function Sidebar() {
           </li>
 
           <li>
-            <button className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-slate-300 transition hover:bg-slate-800 hover:text-white">
+            <button
+              type="button"
+              disabled
+              className="flex w-full cursor-not-allowed items-center gap-3 rounded-xl px-4 py-3 text-slate-500"
+              title="Em breve"
+            >
               <BarChart3 size={20} />
               Relatórios
             </button>
           </li>
 
           <li>
-            <button className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-slate-300 transition hover:bg-slate-800 hover:text-white">
+            <button
+              type="button"
+              disabled
+              className="flex w-full cursor-not-allowed items-center gap-3 rounded-xl px-4 py-3 text-slate-500"
+              title="Em breve"
+            >
               <Settings size={20} />
               Configurações
             </button>

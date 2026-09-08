@@ -106,8 +106,17 @@ Simular o desenvolvimento de uma aplicação real, aplicando:
 ## ▶️ Como rodar o projeto
 
 ```bash
+# Instalar dependências
 npm install
+
+# Rodar em ambiente de desenvolvimento
 npm run dev
+
+# Gerar build de produção
+npm run build
+
+# Executar lint
+npm run lint
 ```
 
 ---

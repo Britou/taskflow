@@ -55,6 +55,19 @@ A aplicação conta com autenticação real via Firebase, dados persistidos no C
 
 ---
 
+## 🧠 Destaques técnicos
+
+- Autenticação real com Firebase Authentication
+- Dados protegidos por usuário no Cloud Firestore
+- Regras de segurança configuradas no Firestore
+- Separação entre contexto, hooks, services, types e componentes
+- Estados globais organizados com Context API
+- Manipulação de campos opcionais no Firestore
+- Interface responsiva com Tailwind CSS
+- Validação contínua com build e lint
+
+---
+
 ## 🧱 Organização do projeto
 
 O projeto foi estruturado com separação de responsabilidades para facilitar manutenção e evolução:

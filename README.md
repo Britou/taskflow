@@ -9,6 +9,10 @@ Este projeto faz parte da construção do meu portfólio como Desenvolvedor Fron
 ## 📸 Preview
 
 ![Preview do dashboard do TaskFlow](./public/screenshots/dashboard.png)
+### 🔗 Links
+
+- Repositório: [GitHub](https://github.com/Britou/taskflow)
+- Deploy: em breve
 
 ---
 

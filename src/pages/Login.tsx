@@ -60,6 +60,7 @@ export function Login() {
               type="email"
               autoComplete="email"
               required
+              disabled={submitting}
               placeholder="Digite seu e-mail"
               className="w-full mt-1 p-3 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-800"
               value={email}
@@ -77,6 +78,7 @@ export function Login() {
               type="password"
               autoComplete="current-password"
               required
+              disabled={submitting}
               placeholder="Digite sua senha"
               className="w-full mt-1 p-3 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-800"
               value={password}

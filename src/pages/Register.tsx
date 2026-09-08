@@ -81,6 +81,7 @@ export function Register() {
               type="email"
               autoComplete="email"
               required
+              disabled={submitting}
               placeholder="Digite seu e-mail"
               className="mt-1 w-full rounded-lg border border-slate-300 p-3 focus:outline-none focus:ring-2 focus:ring-slate-800"
               value={email}
@@ -98,6 +99,7 @@ export function Register() {
               type="password"
               autoComplete="new-password"
               required
+              disabled={submitting}
               placeholder="Crie uma senha"
               className="mt-1 w-full rounded-lg border border-slate-300 p-3 focus:outline-none focus:ring-2 focus:ring-slate-800"
               value={password}
@@ -118,6 +120,7 @@ export function Register() {
               type="password"
               autoComplete="new-password"
               required
+              disabled={submitting}
               placeholder="Repita a senha"
               className="mt-1 w-full rounded-lg border border-slate-300 p-3 focus:outline-none focus:ring-2 focus:ring-slate-800"
               value={confirmPassword}

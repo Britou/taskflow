@@ -6,6 +6,12 @@ Este projeto faz parte da construção do meu portfólio como Desenvolvedor Fron
 
 ---
 
+## 📸 Preview
+
+![Preview do dashboard do TaskFlow](./public/screenshots/dashboard.png)
+
+---
+
 ## ✨ Visão geral
 
 O TaskFlow permite que usuários cadastrem, organizem, editem, concluam e acompanhem suas tarefas em um dashboard responsivo.

@@ -13,7 +13,7 @@ Este projeto faz parte da construção do meu portfólio como Desenvolvedor Fron
 ### 🔗 Links
 
 - Repositório: [GitHub](https://github.com/Britou/taskflow)
-- Deploy: em breve
+- Deploy: [TaskFlow online](https://taskflow-wine-six-32.vercel.app)
 
 ---
 

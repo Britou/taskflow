@@ -128,7 +128,6 @@ npm run lint
 
 ### Próximas melhorias planejadas
 
-- Deploy da aplicação
 - GIF demonstrativo do fluxo principal
 - Melhorias finais de UI/UX
 - Revisão visual para GitHub e LinkedIn

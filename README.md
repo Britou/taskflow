@@ -10,6 +10,10 @@ Este projeto faz parte da construção do meu portfólio como Desenvolvedor Fron
 
 ![Preview do dashboard do TaskFlow](./public/screenshots/dashboard.png)
 
+### Demonstração do fluxo
+
+![Demonstração do TaskFlow](./public/screenshots/taskflow-demo.gif)
+
 ### 🔗 Links
 
 - Repositório: [GitHub](https://github.com/Britou/taskflow)
@@ -128,7 +132,6 @@ npm run lint
 
 ### Próximas melhorias planejadas
 
-- GIF demonstrativo do fluxo principal
 - Melhorias finais de UI/UX
 - Revisão visual para GitHub e LinkedIn
 
